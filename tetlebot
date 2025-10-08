@@ -1,0 +1,34 @@
+import telebot
+
+TOKEN = ""
+bot = telebot.TeleBot(TOKEN)
+
+@bot.message_handler(commands=["start"])
+def say_hello(message):
+    bot.send_message(message.chat.id, "Привет, как дела?")
+
+@bot.message_handler(commands=["info"])
+def say_hello(message):
+    bot.send_message(message.chat.id, "Как прошёл твой день?")
+
+@bot.message_handler(content_types=["text"])
+def handle_message(message):
+    txt = (
+        "Я - первый тестовый бот чтобы "
+        "решать задачи и тестировать их"
+    )
+    bot.send_message(message.chat.id, txt)
+
+@bot.message_handler(content_types=["text"])
+def handle_message(message):
+    txt = message.text
+    if txt.isdigit():
+        bot.send_message(message.chat.id, "вы отправили число")
+    else:
+        bot.send_message(message.chat.id, "вы отправили что то другое")
+
+print("всё норм")
+bot.polling(
+    none_stop=True,
+    interval=1
+)
