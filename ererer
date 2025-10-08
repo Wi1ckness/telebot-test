@@ -1,0 +1,32 @@
+import telebot
+import random
+
+TOKEN = ""
+bot = telebot.TeleBot(TOKEN)
+users_info = {}
+
+class MyException(Exception):
+    pass
+
+@bot.message_handler(commands=["start"])
+def say_hello(message):
+    txt = (
+        "💩Привет, я бот-калькулятор!💩 "
+        "💩Могу ршить всё что угодно💩 "
+        "💩отправь мне и я его решу💩"
+    )
+    bot.send_message(message.chat.id, txt)
+
+@bot.message_handler(content_types = ["text"])
+def handle_message(message):
+    try:
+        res = eval(message.text)
+        bot.send_message(message.chat.id, f"Результат: {res}")
+    except Exception as ex:
+        bot.send_message(message.chat.id, f"Ошибка: {ex}")
+
+print("всё норм")
+bot.polling(
+    none_stop=True,
+    interval=1
+)
